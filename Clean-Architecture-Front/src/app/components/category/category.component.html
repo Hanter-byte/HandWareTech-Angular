@@ -1,0 +1,53 @@
+<h2>Categorias</h2>
+<hr />
+
+<div class="form-inline">
+  <div class="for-group mb-2">
+    <input type="text" class="form-control mr-2" placeholder="Buscar"
+    [(ngModel)]="filtroLista" />
+    <button class="btn btn-outline-success">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </div>
+</div>
+<h3>Filtro: {{filtroLista}}</h3>
+
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>#</th>
+      <th>Nome</th>
+      <th>Opções</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="categories; else nameNotFound">
+    <tr *ngFor="let category of categories">
+      <td>{{ category.id }}</td>
+      <td>{{ category.name }}</td>
+      <td>
+        <a
+          asp-action="Edit"
+          class="btn btn-outline-primary"
+          asp-route-id="@item.Id"
+          ><i class="fa fa-edit"></i
+        ></a>
+        |
+        <a
+          asp-action="Excluir"
+          class="btn btn-outline-danger"
+          asp-route-id="@item.Id"
+          ><i class="fa fa-trash"></i
+        ></a>
+      </td>
+    </tr>
+  </tbody>
+  <ng-template #nameNotFound>
+    <tfoot>
+      <tr>
+        <td colspan="8" class="text-center">
+          <h4>Nem uma categoria encontrada!</h4>
+        </td>
+      </tr>
+    </tfoot>
+  </ng-template>
+</table>

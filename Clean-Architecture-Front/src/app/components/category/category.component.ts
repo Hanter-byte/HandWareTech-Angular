@@ -8,23 +8,24 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CategoryComponent {
   public categories: any;
+  private originalCategories: any;
   private _filtroLista: string = '';
 
   public get filtroLista(): string {
     return this._filtroLista;
   }
 
-  public set filtroLista(valeu: string) {
-    this._filtroLista = valeu;
+  public set filtroLista(value: string) {
+    this._filtroLista = value;
     this.categories = this.filtroLista
       ? this.filtrarCategorias(this._filtroLista)
-      : this.categories;
+      : this.originalCategories;
   }
 
   filtrarCategorias(filtrarPor: string): any {
     filtrarPor = filtrarPor.toLocaleLowerCase();
 
-    return this.categories.filter(
+    return this.originalCategories.filter(
       (category: { name: string }) =>
         category.name.toLocaleLowerCase().indexOf(filtrarPor) !== -1
     );
@@ -38,7 +39,10 @@ export class CategoryComponent {
 
   public getCategories(): void {
     this.http.get('https://localhost:7054/api/categories').subscribe(
-      (response) => (this.categories = response),
+      (response) => {
+        this.categories = response;
+        this.originalCategories = response;
+      },
       (error) => console.log(error)
     );
   }

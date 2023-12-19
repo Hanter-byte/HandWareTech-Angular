@@ -8,7 +8,27 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CategoryComponent {
   public categories: any;
-  filtroLista: string='';
+  private _filtroLista: string = '';
+
+  public get filtroLista(): string {
+    return this._filtroLista;
+  }
+
+  public set filtroLista(valeu: string) {
+    this._filtroLista = valeu;
+    this.categories = this.filtroLista
+      ? this.filtrarCategorias(this._filtroLista)
+      : this.categories;
+  }
+
+  filtrarCategorias(filtrarPor: string): any {
+    filtrarPor = filtrarPor.toLocaleLowerCase();
+
+    return this.categories.filter(
+      (category: { name: string }) =>
+        category.name.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+    );
+  }
 
   constructor(private http: HttpClient) {}
 

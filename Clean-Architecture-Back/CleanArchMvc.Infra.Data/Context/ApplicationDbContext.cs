@@ -1,4 +1,6 @@
 ﻿using CleanArchMvc.Domain.Entities;
+using CleanArchMvc.Infra.Data.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,14 +11,13 @@ using System.Threading.Tasks;
 
 namespace CleanArchMvc.Infra.Data.Context
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options ) : base(options) { 
 
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get;set; }
-        public DbSet<Cliente> Cliente { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
